@@ -9,8 +9,11 @@
   apt_repository: repo='deb https://repos.influxdata.com/ubuntu trusty stable' state=present
 
 - name: Install InfluxDB packages
-  apt: name=influxdb state=present
+  apt: name={{ item }} state=present
   notify: restart influxdb service
+  with_items:
+    - influxdb
+    - influxdb-client
 
 - name: Replace InfluxDB cluster configuration
   template:
